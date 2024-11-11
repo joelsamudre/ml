@@ -1,0 +1,16 @@
+ import heapq
+def huffman_encoding(chars,freqs):
+    heap  = [[freq,[char,""]]for char,freq in zip(chars,freqs)]
+    heapq.heapify(heap)
+    while len(heap)>1:
+        left=heapq.heappop(heap)
+        right=heapq.heappop(heap)
+        for pair in left[1:]: pair[1] = '0' + pair[1]
+        for pair in right[1:]: pair[1] = '1' + pair[1]
+        heapq.heappush(heap,[left[0] + right[0]] + left[1:] + right[1:])
+    return sorted(heap[0][1:] , key = lambda x: (len(x[1]),x))
+chars = ["a","b","c","d","e","f"]
+freqs = [5,9,12,13,16,45]
+codes = huffman_encoding(chars,freqs)
+for char,code in codes:
+    print(f"{char} -> {code}")
